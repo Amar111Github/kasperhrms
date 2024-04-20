@@ -2,6 +2,7 @@ var express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const http = require("http");
+const {connectToMongoDB}=require("./dbConnection/dbconnect");
 const mongoose = require("mongoose");
 const { Server } = require("socket.io");
 const app = express();
@@ -13,7 +14,14 @@ const io = new Server(server, {
     credentials: true,
   },
 });
-require("dotenv").config();
+// require("dotenv").config();
+ongoose.set("useNewUrlParser", true);
+mongoose.set("useFindAndModify", false);
+mongoose.set("useCreateIndex", true);
+mongoose
+  .connect("mongodb+srv://afrozzeelani:Zeelani123@cluster0.rvkkcii.mongodb.net/kasperinfotech")
+  .then(() => console.log("db connection successful"))
+  .catch(err => console.log(err));
 
 // acss the shows bdf file backend
 app.use("/files", express.static("files"));
